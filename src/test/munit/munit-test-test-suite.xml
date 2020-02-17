@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="munit-test-test-suite.xml" />
+	<munit:test name="munit-test-test-suite-Sub_Flow-OtherTest" doc:id="886c7fac-5781-428d-9a26-4abec26d3f22" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to Sub_Flow-Other" doc:id="6f4b2c8a-e5b5-4528-87a7-9f885b4392bf" name="Sub_Flow-Other"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="ea4674fe-c8f4-407f-ac5d-23341f7a54b0" actual="#[vars.ProductName]" expected="OtherProduct"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="munit-test-test-suite-munit-testFlow1Test" doc:id="d0dfe1b8-0b36-44f5-ad2a-bfec75f45e81" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to munit-testFlow1" doc:id="a78396fd-99fc-4ed3-9f9b-df79e3a5c578" name="munit-testFlow1"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify call" doc:id="675a7778-c2c9-4308-8464-dae047dd8e09" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Flow Reference" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Sub_Flow-Other" attributeName="name" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="munit-test-test-suite-munit-testFlow1Test1" doc:id="7a4dd021-e5b7-4af5-bdf4-43b7461c00b6" description="Test">
+		<munit:behavior >
+			<set-payload value="Dell" doc:name="Set Payload" doc:id="5d27a380-a9a3-4157-a661-cff93aeb579c" />
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to munit-testFlow1" doc:id="8878a843-3acf-432c-a1ee-27b19ff455ba" name="munit-testFlow1"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify call" doc:id="fdd6b152-40ab-4b65-8069-3b8862c0ad82" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Flow Reference" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Sub_Flow-Dell" attributeName="name" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="munit-test-test-suite-munit-testFlowTest" doc:id="95dafdbe-3ecc-47cc-b0c5-1c8696e86ac9" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="780f8d4f-de3a-43fb-83b1-7d3da05a4702" processor="set-payload">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue='#["Dell"]' attributeName="value" />
+					<munit-tools:with-attribute whereValue="bbb54f5f-7e7e-448e-9601-16072f75718b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to munit-testFlow" doc:id="ff50da2f-5240-4669-8c22-fcd5e5c7d310" name="munit-testFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="2a1a7dfd-5d5a-4d1c-97ef-38be84a0a1b1" actual="#[payload]" expected="Dell is - 1000$" message="Mesage : Not expected vaue"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="munit-test-test-suite-munit-testFlowTest2" doc:id="c5510157-b4e1-4494-8b0d-ba7dcea6a563" description="Test" expectedErrorType="ANY">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="munit-testFlow" />
+		</munit:enable-flow-sources>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to munit-testFlow" doc:id="cbdcde79-4a67-419e-92fd-a550233decd3" name="munit-testFlow"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:verify-call doc:name="Verify call" doc:id="5f61381b-432a-453a-91d5-30a8f8943fcc" processor="error-handler">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Global-errorError_Handler" attributeName="name" />
+					<munit-tools:with-attribute whereValue="62189449-90e9-4879-a621-cfdbcb460572" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

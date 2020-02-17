@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="new-test-suite.xml" />
+	<munit:test name="new-test-suite-Sub_Flow-DellTest" doc:id="5a1c9063-5ee1-4ab0-9286-d6d5dd8a1474" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to Sub_Flow-Dell" doc:id="5859ffbc-6fa7-40ef-81f2-b7058b369e1a" name="Sub_Flow-Dell"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="bddafbc3-12f1-41d8-8a2a-0e663fae2065" actual="#[vars.ProductName]" expected="DellStudio"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

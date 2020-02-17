@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="33040c26-29ed-4da1-93e5-33b5116b4a2c" >
+		<http:listener-connection host="0.0.0.0" port="8085" />
+	</http:listener-config>
+	<flow name="munit-testFlow" doc:id="591338ba-0dec-4c2d-92d9-9a29ef27dd31" >
+		<http:listener doc:name="Listener" doc:id="1a62df54-bb5b-4e3d-8d5e-ab3fa10fa343" config-ref="HTTP_Listener_config" path="/munit"/>
+		<set-payload value='#["Dell"]' doc:name="Set Payload" doc:id="bbb54f5f-7e7e-448e-9601-16072f75718b" />
+		<flow-ref doc:name="Flow Reference" doc:id="e61cdd22-b7cc-4bce-9992-9022a51885b5" name="munit-testFlow1"/>
+		<choice doc:name="Choice" doc:id="40c71cf2-3492-4c72-9f47-d1d481962dc4" >
+			<when expression='#[vars.ProductName == "DellStudio"]'>
+				<set-payload value="Dell is - 1000$" doc:name="Set Payload" doc:id="742aa49d-5630-4d0b-94ff-f21a71628fef" />
+			</when>
+			<otherwise >
+				<set-payload value="Other is 1200$" doc:name="Set Payload" doc:id="2767ccd1-46b5-4ee8-91dd-149a3a57fee6" />
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="munit-testFlow1" doc:id="e6c8c2ed-ed00-440d-b84d-eed6e259e3d4" >
+		<choice doc:name="Choice" doc:id="7dc45104-47fb-4206-bbe3-103444d86ed1" >
+			<when expression='#[payload == "Dell"]'>
+				<flow-ref doc:name="Flow Reference" doc:id="f89f8028-e483-43e3-9ec8-5a2c52a62783" name="Sub_Flow-Dell"/>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="Flow Reference" doc:id="c01a1da1-2042-49f9-ba04-78faca688956" name="Sub_Flow-Other"/>
+			</otherwise>
+		</choice>
+	</flow>
+	<sub-flow name="Sub_Flow-Dell" doc:id="e609d41e-219b-41a3-af9e-7c5131ead4a1" >
+		<set-variable value="DellStudio" doc:name="Set Variable" doc:id="f0764ff7-c6e2-4b7e-8867-0768395de9c7" variableName="ProductName"/>
+	</sub-flow>
+	<sub-flow name="Sub_Flow-Other" doc:id="8ee5c457-4e66-4393-8d9e-07a4c639236d" >
+		<set-variable value="OtherProduct" doc:name="Set Variable" doc:id="64277804-dbec-461e-ac1c-230292eb2059" variableName="ProductName"/>
+	</sub-flow>
+</mule>
